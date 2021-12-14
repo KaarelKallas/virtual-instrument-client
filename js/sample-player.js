@@ -2,12 +2,12 @@ let online = true;
 
 // define sample files
 const files = [
-  "pack-1/c.mp3", "pack-1/d.mp3", "pack-1/e.mp3"
+  "pack-1/0 - A.wav", "pack-1/0 - A.wav", "pack-1/1 - D.wav", "pack-1/2 - E.wav", "pack-1/3 - F Sharp.wav", "pack-1/4 - G.wav", "pack-1/5 - A.wav", "pack-1/6 - B.wav", "pack-1/A7.wav", "pack-1/D.wav", "pack-1/E Minor.wav", "pack-1/G.wav"
 ];
 let sounds = Array(files.length);
 
 
-// P5.js sound analyzer 
+// P5.js sound analyzer
 // visualization uses this
 let fft;
 // visualization parameters
@@ -17,7 +17,7 @@ let spectrum, energy, size;
 // playing with keyboard
 document.addEventListener('keydown', (event) => {
   const keyName = event.key;
-  
+
   if(online == true){
     switch (keyName) {
       case 'a':
@@ -29,8 +29,32 @@ document.addEventListener('keydown', (event) => {
       case 'd':
         socket.emit("send-data", {"sample": 2} );
         break;
+        case 'f':
+        socket.emit("send-data", {"sample": 3} );
+        break;
+        case 'g':
+        socket.emit("send-data", {"sample": 4} );
+        break;
+        case 'h':
+        socket.emit("send-data", {"sample": 5} );
+        break;
+        case 'j':
+        socket.emit("send-data", {"sample": 6} );
+        break;
+        case 'k':
+        socket.emit("send-data", {"sample": 7} );
+        break;
+        case 'l':
+        socket.emit("send-data", {"sample": 8} );
+        break;
+        case 'ö':
+        socket.emit("send-data", {"sample": 9} );
+        break;
+        case 'ä':
+        socket.emit("send-data", {"sample": 10} );
+        break;
     }
-  } else { 
+  } else {
     // if connection to server is not established, we just play sounds locally
     switch (keyName) {
       case 'a':
@@ -42,6 +66,30 @@ document.addEventListener('keydown', (event) => {
       case 'd':
           playSample(2);
           break;
+        case 'f':
+          playSample(3);
+          break;
+        case 'g':
+          playSample(4);
+          break;
+          case 'h':
+          playSample(5);
+          break;
+          case 'j':
+          playSample(6);
+          break;
+          case 'k':
+          playSample(7);
+          break;
+          case 'l':
+          playSample(8);
+          break;
+          case 'ö':
+          playSample(9);
+          break;
+          case 'ä':
+          playSample(10);
+          break;
     }
   }
 });
@@ -50,8 +98,8 @@ document.addEventListener('keydown', (event) => {
 
 const keys = document.querySelectorAll(".key");
 
-keys.forEach((key, idx) => {  
-  key.addEventListener('click', () => {   
+keys.forEach((key, idx) => {
+  key.addEventListener('click', () => {
     socket.emit("send-data", {"sample": idx} );
   });
 });
@@ -81,7 +129,7 @@ function preloadSampleFiles() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight*0.8)
-  
+
   // https://p5js.org/reference/#/p5.FFT
   fft = new p5.FFT();
   fft.smooth();
@@ -98,7 +146,7 @@ function draw() {
   blendMode(LIGHTEST);
   noFill();
 
-  spectrum = fft.analyze(); 
+  spectrum = fft.analyze();
   energy = fft.getEnergy(100, 255);
   size = map(energy, 0, 255, energy*0.2, windowHeight*0.8);
 
